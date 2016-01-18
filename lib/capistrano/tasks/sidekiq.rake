@@ -70,6 +70,9 @@ namespace :sidekiq do
       end
     else
       execute :sidekiqctl, 'stop', "#{pid_file}", fetch(:sidekiq_timeout)
+      if pid_process_exists?(pid_file)
+        execute "kill -9 `cat #{pid_file}`"
+      end
     end
   end
 
